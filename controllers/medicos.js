@@ -35,18 +35,60 @@ const postMedico = async(req, res = response) => {
 }
 const putMedico = async(req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'Actualizar Medico'
-    });
+    const id = req.params.id;
+
+    try {
+        const medico = await Medicos.findById(id);
+        if (!medico) {
+            res.status(404).json({
+                ok: false,
+                msg: 'Médico no encontrado por id'
+            });
+        }
+        const cambiosMedico = {
+            ...req.body,
+            usuario: req.uid
+        }
+        const medicoActualizado = await Medicos.findByIdAndUpdate(id, cambiosMedico, { new: true })
+        res.json({
+            ok: true,
+            medico: medicoActualizado
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 const deleteMedico = async(req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'Eliminar Medico'
-    });
+    const id = req.params.id;
+
+    try {
+        const medico = await Medicos.findById(id);
+        if (!medico) {
+            res.status(404).json({
+                ok: false,
+                msg: 'Hospital no encontrado por id'
+            });
+        }
+        await Medicos.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            msg: 'Medico Eliminado'
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        });
+    }
 }
 
 
