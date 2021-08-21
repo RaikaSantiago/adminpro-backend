@@ -15,6 +15,7 @@ const app = express();
 /*Configurar Cors */
 app.use(cors());
 
+
 /* 1 - Lectura y parseo del body */
 app.use(express.json());
 
