@@ -12,7 +12,7 @@ const login = async(req, res = response) => {
         if (!usuarioDB) {
             return res.status(404).json({
                 ok: false,
-                msg: 'Email no valido'
+                msg: 'Correo no valido'
             });
         }
 
@@ -24,11 +24,13 @@ const login = async(req, res = response) => {
                 msg: 'Contraseña no válida'
             });
         }
+
         /*Generar el Token */
         const token = await generateJWT(usuarioDB.id);
         res.json({
             ok: true,
-            token
+            token,
+            uid: usuarioDB._id
         })
     } catch (error) {
         console.log(error);
