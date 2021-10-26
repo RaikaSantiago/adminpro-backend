@@ -4,8 +4,9 @@ const Hospital = require('../models/hospitales.model');
 const { generateJWT } = require('../helpers/jwt');
 
 const getHospitales = async(req, res = response) => {
-
+    // const desde = Number(req.query.desde) || 0;
     const hospital = await Hospital.find().populate('usuario', 'nombre img');
+
     res.json({
         ok: true,
         hospital,
